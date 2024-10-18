@@ -1,0 +1,24 @@
+.grid {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+  
+.grid-row {
+    display: flex;
+  }
+  
+.grid-cell {
+    width: 60px;
+    height: 60px;
+    background-color: #ddd;
+    border: 1px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.active-block {
+    background-color: #4caf50;
+}
+  
