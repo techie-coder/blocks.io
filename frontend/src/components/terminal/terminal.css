@@ -1,0 +1,67 @@
+/* Terminal Window */
+.terminal-window {
+    width: 600px;
+    height: 400px;
+    background-color: rgb(23, 24, 25); /* Dark background */
+    color: rgb(115, 181, 148); /* Green text, typical for Linux terminals */
+    font-family: 'Courier New', Courier, monospace; /* Monospace font */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Terminal Output */
+.terminal-output {
+    flex-grow: 1;
+    overflow-y: auto;
+    white-space: pre-wrap; /* Preserve whitespace and newlines */
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+/* Terminal Input */
+.terminal-input {
+    display: flex;
+    color: rgb(115, 181, 148);
+}
+
+/* Command Prompt */
+.prompt {
+    color: rgb(115, 181, 148);
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+/* Input Field */
+.terminal-input input {
+    flex-grow: 1;
+    background-color: rgb(23, 24, 25); /* Match the terminal background */
+    border: none;
+    color: rgb(115, 181, 148); /* Green text */
+    outline: none;
+    caret-color: rgb(115, 181, 148); /* Green blinking cursor */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    padding: 5px;
+}
+
+/* Input Field Blinking Cursor */
+.terminal-input input::placeholder {
+    color: #888;
+}
+
+/* Scrollbar Customization */
+.terminal-output::-webkit-scrollbar {
+    width: 0%;
+}
+
+.terminal-output::-webkit-scrollbar-thumb {
+    background-color: #444;
+    border-radius: 10px;
+}
+
+.terminal-output::-webkit-scrollbar-track {
+    background-color: #222;
+}

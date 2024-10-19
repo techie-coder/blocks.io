@@ -1,5 +1,5 @@
 .grid {
-    display: flex;
+    display: grid;
     flex-direction: column;
     margin-bottom: 20px;
 }
@@ -11,14 +11,15 @@
 .grid-cell {
     width: 60px;
     height: 60px;
-    background-color: #ddd;
-    border: 1px solid #333;
+    background-color:rgb(23, 24, 25);
+    border: 1px solid #880909;
     display: flex;
     justify-content: center;
     align-items: center;
 }
   
 .active-block {
-    background-color: #4caf50;
+    background-color: #4010C4;
+    border-radius: 20px;
 }
   
