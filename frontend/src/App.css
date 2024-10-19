@@ -1,6 +1,7 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  all: unset;
+  max-width: 100hw;
+  margin: 0;
   padding: 0;
   text-align: center;
 }
@@ -10,7 +11,7 @@
 }
 
 html, body{
-  background-image: url("https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHhxNTBucnljaXR4cm8xcGo1eTVndzN1YTRvM2g5YXM3NGY0c3RiMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/6WjiPPOF0eeS3ipQKH/giphy.gif"); /* Replace with your GIF URL */
+  background-image: "./assets/background/space_gif_by_dyazy_df8mdau.gif"; /* Replace with your GIF URL */
   background-size: cover; /* Ensures the GIF covers the entire page */
   background-position: center; /* Centers the background */
   background-repeat: no-repeat; /* Prevents the GIF from repeating */

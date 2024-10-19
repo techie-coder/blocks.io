@@ -6,7 +6,7 @@ import './App.css';
 
 const App = () => {
   const gridLength = 9;
-  const gridBreadth = 27;
+  const gridBreadth = 40;
   const [position, setPosition] = useState({ x: 10, y: 3 });
 
   // Generate obstacles

@@ -1,19 +1,26 @@
 .grid {
     display: grid;
+    vertical-align: middle;
+    padding: 0;
+    height: 80vh;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin: 0;
 }
   
 .grid-row {
+    vertical-align: middle;
     display: flex;
-  }
+    justify-items: center;
+    margin-bottom : 0;
+}
   
 .grid-cell {
+    vertical-align: middle;
     width: 60px;
     height: 60px;
     background-color:rgb(23, 24, 25);
     border: 1px solid #880909;
-    display: flex;
+    display: grid;
     justify-content: center;
     align-items: center;
 }
