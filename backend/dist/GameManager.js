@@ -21,7 +21,9 @@ class GameManager {
             if (message.type === messages_1.INIT_GAME) {
                 if (this.pendingUser) {
                     //start the game
+                    console.log("control reached inside handler");
                     const game = new Game_1.Game(this.pendingUser, socket);
+                    console.log("Init game");
                     this.games.push(game);
                     this.pendingUser = null;
                 }
@@ -38,7 +40,7 @@ class GameManager {
             if (message.type === messages_1.GET_GAME_STATE) {
                 const game = this.games.find(game => game.player1 === socket || game.player2 === socket);
                 if (game) {
-                    socket.send(JSON.stringify({ gametate: game.getGameState() }));
+                    socket.send(JSON.stringify({ gamestate: game.getGameState() }));
                 }
             }
         });
