@@ -12,7 +12,8 @@ const Grid = ({ numRows, numCols, position }) => {
               className={`grid-cell ${
                 position.x === colIndex && position.y === rowIndex ? 'active-block' : ''
               }`}
-            ></div>
+            >
+            </div>
           ))}
         </div>
       ))}
