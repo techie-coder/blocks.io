@@ -1,11 +1,12 @@
 import { WebSocket } from "ws";
 import { Block, Map } from "./Map";
+import { GAME_OVER, INIT_GAME, MOVE } from "./messages";
 
 export class Game {
     public player1: WebSocket;
     public player2: WebSocket;
     private map: Map;
-    private moves: string[];
+    private moves: number;
     private startTime: Date;
     private player1Blocks:Block[] = [];
     private player2Blocks:Block[] = [];
@@ -14,45 +15,33 @@ export class Game {
     constructor(player1: WebSocket, player2: WebSocket){
         this.player1 = player1;
         this.player2 = player2;
-        this.map = new Map(50, 100);
-        this.moves = [];
+        this.map = new Map(5, 10);
+        this.moves = 0;
         this.startTime = new Date();
 
-        this.generatePlayer1Blocks();
-        this.generatePlayer2Blocks();
+        this.player1Blocks = this.map.black;
+        this.player2Blocks = this.map.white;
         this.currentPlayer = player1;
+
+        this.player1.send(JSON.stringify({
+            type: INIT_GAME,
+            payload: {
+                player: "Player 1"
+            }
+        }))
+
+        this.player2.send(JSON.stringify({
+            type: INIT_GAME,
+            payload: {
+                player: "Player 2"
+            }
+        }))
+
     }
 
-    generatePlayer1Blocks(grid:Block[][] = this.map.grid, playerBlocks:Block[] = this.player1Blocks){
-        const maxBlocks = 5;
-        let blockCounter = 0;
 
-        while(blockCounter < maxBlocks){
-            const x = Math.floor((Math.random()*25));
-            const y = Math.floor((Math.random() * 50));
-
-            if(grid[x][y].type === "."){
-                grid[x][y].type="playerBlock";
-                playerBlocks.push(grid[x][y]);
-                blockCounter++;
-            }
-        }
-    }
-
-    generatePlayer2Blocks(grid:Block[][] = this.map.grid, playerBlocks:Block[] = this.player2Blocks){
-        const maxBlocks = 5;
-        let blockCounter = 0;
-
-        while(blockCounter < maxBlocks){
-            const x = Math.floor((Math.random()*25));
-            const y = Math.floor((Math.random() * 50));
-
-            if(grid[x][y].type === "."){
-                grid[x][y].type="playerBlock";
-                playerBlocks.push(grid[x][y]);
-                blockCounter++;
-            }
-        }
+    getGameState():Block[][]{
+        return this.map.grid;
     }
 
     displayPlayerBlocks(){
@@ -74,33 +63,58 @@ export class Game {
         }
     }
 
-    makeMove(socket: WebSocket, move: {
-        from: Block,
-        to: Block
-    }){
+    makeMove(socket: WebSocket, move: {to: Block, from: Block}){
+        
         if(socket !== this.currentPlayer){
-            socket.send(JSON.stringify({error: "Not your turn!"}));
-            return;
+            socket.send(JSON.stringify({msg: "Not your turn!"}));
         }
 
-        const isValid = this.validateMove(socket, move);
-
-        const playerBlocks = socket === this.currentPlayer ? this.player1Blocks : this.player2Blocks;
-
-        if(isValid){
-            const y2 = move.to.yCord;
-            const x2 = move.to.xCord;
-            const x1 = move.from.xCord;
-            const y1 = move.from.yCord;
-            this.map.grid[x1][y1].type = ".";
-            this.map.grid[x2][y2].type = "playerBlock";
-            playerBlocks.
-            socket.send(JSON.stringify({gameState: this.map.grid}));           
-        }else{
-            socket.send(JSON.stringify({error: "Invalid move"}));
-            return;
+        try{
+            this.map.move(move);
+            this.moves++;
+        }catch(e){
+            socket.send(JSON.stringify({error: e}));
         }
 
+        //Check if game over
+        if(this.map.isGameOver()){
+            this.player1.send(JSON.stringify({
+                type: GAME_OVER,
+                payload: {
+                    winner: this.map.winner
+                }
+            }))
+            this.player2.send(JSON.stringify({
+                type: GAME_OVER,
+                payload: {
+                    winner: this.map.winner
+                }
+            }))
+        return;
+        }
+
+        if(socket === this.currentPlayer){
+            this.player1.send(JSON.stringify({
+                type: MOVE,
+                payload: move
+            }))
+        }      
+        else{
+            this.player2.send(JSON.stringify({
+                type: MOVE,
+                payload: move
+            }))
+        }
+
+        //Switch the turns
+        this.currentPlayer = this.currentPlayer === this.player1 ? this.player2 : this.player1;
+        this.currentPlayer.send(JSON.stringify(
+            {
+                msg: "Your turn!"
+            }
+        ))
 
     }
+
+
 }

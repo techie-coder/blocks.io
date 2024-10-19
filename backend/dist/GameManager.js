@@ -5,6 +5,8 @@ const messages_1 = require("./messages");
 class GameManager {
     constructor() {
         this.games = [];
+        this.pendingUser = null;
+        this.users = [];
     }
     addUser(socket) {
         this.users.push(socket);
@@ -24,13 +26,19 @@ class GameManager {
                     this.pendingUser = null;
                 }
                 else {
-                    this.pendingUser == socket;
+                    this.pendingUser = socket;
                 }
             }
             if (message.type === messages_1.MOVE) {
                 const game = this.games.find(game => game.player1 === socket || game.player2 === socket);
                 if (game) {
                     game.makeMove(socket, message.move);
+                }
+            }
+            if (message.type === messages_1.GET_GAME_STATE) {
+                const game = this.games.find(game => game.player1 === socket || game.player2 === socket);
+                if (game) {
+                    socket.send(JSON.stringify({ gametate: game.getGameState() }));
                 }
             }
         });

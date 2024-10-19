@@ -1,6 +1,6 @@
 import WebSocket from "ws";
 import { Game } from "./Game";
-import { INIT_GAME, MOVE } from "./messages";
+import { GET_GAME_STATE, INIT_GAME, MOVE } from "./messages";
 
 export class GameManager{
 
@@ -11,6 +11,8 @@ export class GameManager{
     constructor()
     {
         this.games = []
+        this.pendingUser = null;
+        this.users = [];
     }
 
     addUser(socket: WebSocket){
@@ -35,7 +37,7 @@ export class GameManager{
                    this.pendingUser = null;
 
                 }else{
-                    this.pendingUser == socket;
+                    this.pendingUser = socket;
                 }
             }
 
@@ -45,6 +47,14 @@ export class GameManager{
                     game.makeMove(socket, message.move);
                 }
             }
+
+            if(message.type === GET_GAME_STATE){
+                const game = this.games.find(game => game.player1 === socket || game.player2 === socket);
+                if(game){
+                    socket.send(JSON.stringify({gametate: game.getGameState()}));
+                }
+            }
+
         })
 
     }
