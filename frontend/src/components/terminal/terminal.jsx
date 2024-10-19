@@ -47,9 +47,9 @@ const Terminal = ({ handleMove })=>{
                 <pre>{output}</pre>
               </div>
               <div className="terminal-input">
+              <span className="terminal-prompt">player@blocks.io:~$</span>
                 <input
                     type="text"
-                    placeholder="Enter command"
                     value={command}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={e => {

@@ -1,10 +1,7 @@
 .grid {
     display: grid;
-    vertical-align: middle;
-    padding: 0;
-    height: 80vh;
     flex-direction: column;
-    margin: 0;
+    margin: 10px;
 }
   
 .grid-row {
@@ -18,7 +15,7 @@
     vertical-align: middle;
     width: 60px;
     height: 60px;
-    background-color:rgb(23, 24, 25);
+    background-color: transparent;
     border: 1px solid #880909;
     display: grid;
     justify-content: center;
