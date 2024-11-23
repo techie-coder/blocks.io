@@ -1,2 +1,3 @@
 # blocks.io
-A simple blocks game or so i think
+A simple blocks game using Next.js and Tailwind <br/>
+Still in development
